@@ -1,0 +1,16 @@
+service: get-user-points
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+
+functions:
+  getUserPoints:
+    handler: handler.getUserPoints
+    events:
+      - http:
+          path: get-user-points
+          method: post
+
+plugins:
+  - serverless-offline
