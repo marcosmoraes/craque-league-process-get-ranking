@@ -1,4 +1,4 @@
-const { calculateUserPointsFromDB } = require('./calculate-points-service');
+const { calculateUserPointsFromDBByLeague, calculateUserPointsFromDB } = require('./calculate-points-service');
 const { createRanking } = require('./ranking-service');
 
 async function getUserPointsByBubbleId(bubbleId) {
@@ -7,4 +7,10 @@ async function getUserPointsByBubbleId(bubbleId) {
     return ranking;
 }
 
-module.exports = { getUserPointsByBubbleId };
+async function getUserPointsByLeagueId(leagueId) {
+    const userPoints = await calculateUserPointsFromDBByLeague(leagueId);
+    const ranking = createRanking(userPoints);
+    return ranking;
+}
+
+module.exports = { getUserPointsByBubbleId, getUserPointsByLeagueId };

@@ -12,5 +12,12 @@ functions:
           path: get-user-points
           method: post
 
+  getUserPointsByLeague:
+    handler: handler.getUserPointsByLeague
+    events:
+      - http:
+          path: get-user-points-by-league
+          method: post
+
 plugins:
   - serverless-offline
