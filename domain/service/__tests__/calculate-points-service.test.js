@@ -1,9 +1,9 @@
-const { calculateUserPointsFromDB } = require('./calculate-points-service'); // Adjust the path as needed
-const { createBetsPlacaresModel } = require('../model/bet-placares-model');
-const { createBetPlayersModel } = require('../model/bet-players-model');
+const { calculateUserPointsFromDB } = require('../calculate-points-service'); 
+const { createBetsPlacaresModel } = require('../../model/bet-placares-model');
+const { createBetPlayersModel } = require('../../model/bet-players-model');
 
-jest.mock('../model/bet-placares-model');
-jest.mock('../model/bet-players-model');
+jest.mock('../../model/bet-placares-model');
+jest.mock('../../model/bet-players-model');
 
 describe('calculateUserPointsFromDB', () => {
     let BetsPlacaresMock;
