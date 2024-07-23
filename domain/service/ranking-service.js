@@ -2,7 +2,15 @@ const dataAccess = require('../../infrastructure/data-access/mongodb');
 const { UserRankingDTO } = require('../dto/ranking-dto');
 
 async function createRankingWithPrizes(userPoints, bubbleId = null, leagueId = null) {
-    const sortedPoints = Object.entries(userPoints)
+    const sortedPoints = sortUserPoints(userPoints);
+    const leaguePrize = await dataAccess.getLeaguePrize(bubbleId, leagueId);
+    const prizes = distributePrizes(leaguePrize, sortedPoints);
+
+    return generateRanking(sortedPoints, prizes);
+}
+
+function sortUserPoints(userPoints) {
+    return Object.entries(userPoints)
         .map(([userId, points]) => ({
             userId,
             totalPoints: points.gamePoints + points.playerPoints,
@@ -10,31 +18,6 @@ async function createRankingWithPrizes(userPoints, bubbleId = null, leagueId = n
             playerPoints: points.playerPoints
         }))
         .sort((a, b) => b.totalPoints - a.totalPoints);
-
-    const leaguePrize = await dataAccess.getLeaguePrize(bubbleId, leagueId);
-    const prizes = distributePrizes(leaguePrize, sortedPoints);
-
-    let rank = 1;
-    let previousPoints = null;
-    let tieCount = 0;
-
-    return sortedPoints.map((entry, index) => {
-        if (previousPoints === entry.totalPoints) {
-            tieCount++;
-        } else {
-            rank += tieCount;
-            tieCount = 1;
-        }
-        previousPoints = entry.totalPoints;
-        return new UserRankingDTO(
-            entry.userId,
-            entry.totalPoints,
-            entry.gamePoints,
-            entry.playerPoints,
-            rank,
-            prizes[index] || 0
-        );
-    });
 }
 
 function distributePrizes(leaguePrize, sortedPoints) {
@@ -50,26 +33,57 @@ function distributePrizes(leaguePrize, sortedPoints) {
 
     let prizeIndex = 0;
     const prizes = Array(sortedPoints.length).fill(0);
+    const numPrizes = prizeDistribution.length;
 
-    while (prizeIndex < prizeDistribution.length && prizeIndex < sortedPoints.length) {
+    for (let i = 0; i < sortedPoints.length && prizeIndex < numPrizes; i++) {
         let tieCount = 1;
-        let tieSum = prizeDistribution[prizeIndex];
+        let currentPoints = sortedPoints[i].totalPoints;
 
-        while (prizeIndex + tieCount < prizeDistribution.length && prizeIndex + tieCount < sortedPoints.length &&
-            sortedPoints[prizeIndex].totalPoints === sortedPoints[prizeIndex + tieCount].totalPoints) {
-            tieSum += prizeDistribution[prizeIndex + tieCount];
+        while (i + tieCount < sortedPoints.length && sortedPoints[i + tieCount].totalPoints === currentPoints) {
             tieCount++;
         }
 
-        const prizeAmount = tieSum / tieCount;
-        for (let i = 0; i < tieCount; i++) {
-            prizes[prizeIndex + i] = prizeAmount;
+        const prizeAmount = prizeDistribution.slice(prizeIndex, prizeIndex + tieCount).reduce((a, b) => a + b, 0) / tieCount;
+
+        for (let j = 0; j < tieCount; j++) {
+            if (prizeIndex < numPrizes) {
+                prizes[i + j] = prizeAmount;
+            }
         }
 
         prizeIndex += tieCount;
+        i += tieCount - 1;
     }
 
     return prizes;
 }
 
-module.exports = { createRankingWithPrizes, distributePrizes };
+function generateRanking(sortedPoints, prizes) {
+    let rank = 1;
+    let previousPoints = null;
+    let previousRank = 0;
+
+    return sortedPoints.map((entry, index) => {
+        if (previousPoints !== null && previousPoints !== entry.totalPoints) {
+            rank = previousRank + 1;
+        }
+        previousRank = rank;
+        previousPoints = entry.totalPoints;
+
+        return new UserRankingDTO(
+            entry.userId,
+            entry.totalPoints,
+            entry.gamePoints,
+            entry.playerPoints,
+            rank,
+            prizes[index] || 0
+        );
+    });
+}
+
+module.exports = {
+    createRankingWithPrizes,
+    sortUserPoints,
+    distributePrizes,
+    generateRanking
+};

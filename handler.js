@@ -1,4 +1,5 @@
 const { getUserPointsByBubbleId, getUserPointsByLeagueId } = require('./domain/service/user-points-service');
+const { logProcessingState } = require('./utils/log-processing-state'); 
 
 module.exports.getUserPoints = async (event) => {
     try {
@@ -11,13 +12,14 @@ module.exports.getUserPoints = async (event) => {
         }
 
         const userPoints = await getUserPointsByBubbleId(bubbleId);
-
+        
         return {
             statusCode: 200,
-            body: JSON.stringify({ userPoints })
+            body: JSON.stringify({ userPoints })            
         };
     } catch (error) {
         console.error('Error getting user points:', error);
+        await logProcessingState(bubbleId, 'get-ranking-getUserPointsByBubbleId', 'error', error);
         return {
             statusCode: 500,
             body: JSON.stringify({ message: 'Internal Server Error' })
