@@ -1,4 +1,4 @@
-service: league-scheduler-dev
+service: league-ranking
 
 frameworkVersion: "3"
 
