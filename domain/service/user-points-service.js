@@ -1,5 +1,5 @@
 const { calculateUserPointsFromDBByLeague, calculateUserPointsFromDB } = require('./calculate-points-service');
-const { createRankingWithPrizes } = require('./ranking-service');
+const { createRankingWithPrizes, aggregateUserPoints } = require('./ranking-service');
 const { RankingDTO } = require('../dto/ranking-dto');
 
 async function getUserPointsByBubbleId(bubbleId) {
@@ -14,4 +14,17 @@ async function getUserPointsByLeagueId(leagueId) {
     return new RankingDTO(ranking);
 }
 
-module.exports = { getUserPointsByBubbleId, getUserPointsByLeagueId };
+async function getUserRankingByBubbleIds(bubbleIds) {
+    let aggregatedUserPoints = {};
+
+    // Soma os pontos dos usuários em todos os bubbleIds
+    for (const bubbleId of bubbleIds) {
+        const userPoints = await calculateUserPointsFromDB(bubbleId); // Pega os pontos dos usuários por bubbleId
+        aggregatedUserPoints = await aggregateUserPoints(aggregatedUserPoints, userPoints); // Soma os pontos dos usuários
+    }
+
+    const ranking = await createRankingWithPrizes(aggregatedUserPoints); // Gera o ranking final com base nos pontos somados
+    return new RankingDTO(ranking);
+}
+
+module.exports = { getUserPointsByBubbleId, getUserPointsByLeagueId, getUserRankingByBubbleIds };

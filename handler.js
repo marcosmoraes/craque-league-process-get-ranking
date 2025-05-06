@@ -1,4 +1,4 @@
-const { getUserPointsByBubbleId, getUserPointsByLeagueId } = require('./domain/service/user-points-service');
+const { getUserPointsByBubbleId, getUserPointsByLeagueId, getUserRankingByBubbleIds } = require('./domain/service/user-points-service');
 const { logProcessingState } = require('./utils/log-processing-state'); 
 
 module.exports.getUserPoints = async (event) => {
@@ -45,6 +45,32 @@ module.exports.getUserPointsByLeague = async (event) => {
         };
     } catch (error) {
         console.error('Error getting user points by league:', error);
+        return {
+            statusCode: 500,
+            body: JSON.stringify({ message: 'Internal Server Error' })
+        };
+    }
+};
+
+module.exports.getUserRankingByBubbleIds = async (event) => {
+    try {
+        const { bubbleIds } = JSON.parse(event.body);
+        if (!bubbleIds || !Array.isArray(bubbleIds)) {
+            return {
+                statusCode: 400,
+                body: JSON.stringify({ message: 'bubbleIds array is required' })
+            };
+        }
+
+        // Calcula o ranking final baseado em todos os bubbleIds
+        const rankings = await getUserRankingByBubbleIds(bubbleIds);
+
+        return {
+            statusCode: 200,
+            body: JSON.stringify({ rankings })
+        };
+    } catch (error) {
+        console.error('Error getting rankings by bubbleIds:', error);
         return {
             statusCode: 500,
             body: JSON.stringify({ message: 'Internal Server Error' })

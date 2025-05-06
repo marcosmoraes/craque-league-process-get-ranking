@@ -21,6 +21,14 @@ functions:
           path: get-user-points-by-league
           method: post
 
+  getUserRankingByBubbleIds:
+    handler: handler.getUserRankingByBubbleIds
+    timeout: 600
+    events:
+      - http:
+          path: get-user-ranking-by-bubble-ids
+          method: post
+
 plugins:
   - serverless-dotenv-plugin
   - serverless-offline

@@ -58,6 +58,18 @@ function distributePrizes(leaguePrize, sortedPoints) {
     return prizes;
 }
 
+function aggregateUserPoints(existingPoints, newPoints) {
+    // Soma os pontos dos novos usuários aos pontos já existentes
+    Object.entries(newPoints).forEach(([userId, points]) => {
+        if (!existingPoints[userId]) {
+            existingPoints[userId] = { gamePoints: 0, playerPoints: 0 };
+        }
+        existingPoints[userId].gamePoints += points.gamePoints;
+        existingPoints[userId].playerPoints += points.playerPoints;
+    });
+    return existingPoints;
+}
+
 function generateRanking(sortedPoints, prizes) {
     let rank = 1;
     let previousPoints = null;
@@ -85,5 +97,6 @@ module.exports = {
     createRankingWithPrizes,
     sortUserPoints,
     distributePrizes,
+    aggregateUserPoints,
     generateRanking
 };
