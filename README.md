@@ -1,99 +1,78 @@
 # League Process Get Ranking
 
-Este serviço é responsável por obter e processar o ranking dos usuários por liga no sistema Craque. Ele fornece endpoints para consultar pontos de usuários e rankings baseados em diferentes critérios.
+Serviço responsável por processar e retornar rankings e pontuações de usuários em ligas e bolões do sistema Craque.
 
 ## 🚀 Tecnologias
 
 - Node.js 18.x
+- MongoDB
 - Serverless Framework
 - AWS Lambda
-- MongoDB (via Mongoose)
-- Jest (para testes)
-- Prometheus Client (para métricas)
+- Serverless Offline
 
 ## 📋 Pré-requisitos
 
-- Node.js 18.x ou superior
-- Serverless Framework CLI
-- AWS CLI configurado
+- Node.js 18.x
 - MongoDB
+- Serverless Framework CLI
+- Conta AWS (para deploy)
 
 ## 🔧 Instalação
 
 1. Clone o repositório
-2. Instale as dependências:
+```bash
+git clone [url-do-repositorio]
+```
+
+2. Instale as dependências
 ```bash
 npm install
 ```
 
-3. Configure as variáveis de ambiente:
-Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
-```env
-MONGODB_URI=sua_uri_do_mongodb
-AWS_REGION=sua_regiao_aws
-```
-
-## 🏃‍♂️ Executando o projeto
-
-### Desenvolvimento local
+3. Configure as variáveis de ambiente
 ```bash
-npm run dev
+cp .env.example .env
+# Edite o arquivo .env com suas credenciais
 ```
-O servidor será iniciado na porta 3003.
 
-### Deploy
+4. Execute localmente
 ```bash
-serverless deploy
+serverless offline
 ```
 
-## 📡 Endpoints
+## 📚 Documentação
 
-### 1. Get User Points
-- **Endpoint**: POST /get-user-points
-- **Body**:
-```json
-{
-    "bubbleId": "string"
-}
-```
+A documentação completa do projeto está disponível na pasta `docs/`:
 
-### 2. Get User Points by League
-- **Endpoint**: POST /get-user-points-by-league
-- **Body**:
-```json
-{
-    "leagueId": "string"
-}
-```
+- [Visão Geral](docs/00-project-overview.md)
+- [Arquitetura](docs/01-architecture.md)
+- [Componentes](docs/02-components.md)
+- [Processo de Desenvolvimento](docs/03-development-process.md)
+- [API](docs/04-api-documentation.md)
+- [Log de Progresso](docs/05-progress-log.md)
 
-### 3. Get User Ranking by Bubble IDs
-- **Endpoint**: POST /get-user-ranking-by-bubble-ids
-- **Body**:
-```json
-{
-    "bubbleIds": ["string"]
-}
-```
+## 🛠️ Desenvolvimento
 
-## 🧪 Testes
+### Comandos Úteis
 
-Para executar os testes:
-```bash
-npm test
-```
+- Desenvolvimento local: `serverless offline`
+- Deploy dev: `serverless deploy --stage dev`
+- Deploy prod: `serverless deploy --stage prod`
 
-## 📊 Monitoramento
+### Endpoints
 
-O serviço utiliza o Prometheus Client para coletar métricas de performance e monitoramento.
+- `POST /get-user-points`: Retorna pontuações por bolão
+- `POST /get-user-points-by-league`: Retorna pontuações por liga
+- `POST /get-user-ranking-by-bubble-ids`: Retorna ranking consolidado
+
+## 📝 Licença
+
+Este projeto está sob a licença [MIT](LICENSE).
 
 ## 🤝 Contribuição
 
-1. Faça o fork do projeto
+1. Faça um fork do projeto
 2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
 3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
 4. Push para a branch (`git push origin feature/AmazingFeature`)
 5. Abra um Pull Request
-
-## 📝 Licença
-
-Este projeto está sob a licença MIT.
