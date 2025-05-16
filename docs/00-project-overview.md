@@ -1,36 +1,36 @@
-# Visão Geral do Projeto
+# Project Overview
 
-## Nome
+## Name
 League Process Get Ranking
 
-## Descrição
-Serviço responsável por processar e retornar rankings e pontuações de usuários em ligas e bolões do sistema Craque. O serviço oferece endpoints para consultar pontuações individuais por bolão, por liga e rankings consolidados baseados em múltiplos bolões.
+## Description
+Service responsible for processing and returning user rankings and points in leagues and pools of the Craque system. The service provides endpoints to query individual points by pool, by league, and consolidated rankings based on multiple pools.
 
-## Principais Funcionalidades
-- Consulta de pontuações de usuários por bolão (bubbleId)
-- Consulta de pontuações de usuários por liga (leagueId)
-- Cálculo de ranking consolidado baseado em múltiplos bolões
-- Logging de estados de processamento para monitoramento
+## Main Features
+- Query user points by pool (bubbleId)
+- Query user points by league (leagueId)
+- Calculate consolidated ranking based on multiple pools
+- Processing state logging for monitoring
 
-## Stack Tecnológica
+## Technology Stack
 - Node.js 18.x
 - AWS Lambda
 - Serverless Framework
-- MongoDB (para armazenamento de dados)
-- Serverless Offline (para desenvolvimento local)
+- MongoDB (for data storage)
+- Serverless Offline (for local development)
 
-## Estrutura do Repositório
+## Repository Structure
 ```
 .
-├── domain/           # Lógica de negócio e regras do domínio
-├── infrastructure/   # Configurações de infraestrutura
-├── utils/           # Utilitários e helpers
-├── handler.js       # Ponto de entrada das funções Lambda
-├── serverless.yml   # Configuração do Serverless Framework
-└── package.json     # Dependências do projeto
+├── domain/           # Business logic and domain rules
+├── infrastructure/   # Infrastructure configurations
+├── utils/           # Utilities and helpers
+├── handler.js       # Lambda functions entry point
+├── serverless.yml   # Serverless Framework configuration
+└── package.json     # Project dependencies
 ```
 
-## Variáveis de Ambiente
-- `MONGODB_URI`: URI de conexão com o MongoDB
-- `NODE_ENV`: Ambiente de execução (development/production)
-- `LOG_LEVEL`: Nível de log do sistema
+## Environment Variables
+- `MONGODB_URI`: MongoDB connection URI
+- `NODE_ENV`: Execution environment (development/production)
+- `LOG_LEVEL`: System log level

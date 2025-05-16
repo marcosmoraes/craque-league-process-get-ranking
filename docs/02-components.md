@@ -1,6 +1,6 @@
-# Componentes do Sistema
+# System Components
 
-## Modelos de Dados
+## Data Models
 ### UserPoints
 ```typescript
 interface UserPoints {
@@ -23,59 +23,59 @@ interface Ranking {
 }
 ```
 
-## Serviços
+## Services
 ### UserPointsService (domain/service/user-points-service.js)
-- `getUserPointsByBubbleId(bubbleId)`: Retorna pontuações de usuários em um bolão específico
-- `getUserPointsByLeagueId(leagueId)`: Retorna pontuações de usuários em uma liga específica
-- `getUserRankingByBubbleIds(bubbleIds)`: Calcula ranking consolidado baseado em múltiplos bolões
+- `getUserPointsByBubbleId(bubbleId)`: Returns user points in a specific pool
+- `getUserPointsByLeagueId(leagueId)`: Returns user points in a specific league
+- `getUserRankingByBubbleIds(bubbleIds)`: Calculates consolidated ranking based on multiple pools
 
 ### LogProcessingState (utils/log-processing-state.js)
-- `logProcessingState(bubbleId, operation, status, error)`: Registra estados de processamento para monitoramento e debugging
+- `logProcessingState(bubbleId, operation, status, error)`: Records processing states for monitoring and debugging
 
 ## Data Access
 ### MongoDB
-- Conexão configurada em `infrastructure/`
-- Queries otimizadas para consultas de ranking
-- Índices para melhor performance em consultas frequentes
+- Connection configured in `infrastructure/`
+- Optimized queries for ranking lookups
+- Indexes for better performance in frequent queries
 
 ## Endpoints
 ### GET /get-user-points
-- Método: POST
+- Method: POST
 - Handler: `handler.getUserPoints`
-- Parâmetros: `bubbleId`
-- Retorna: Lista de pontuações de usuários em um bolão
+- Parameters: `bubbleId`
+- Returns: List of user points in a pool
 
 ### GET /get-user-points-by-league
-- Método: POST
+- Method: POST
 - Handler: `handler.getUserPointsByLeague`
-- Parâmetros: `leagueId`
-- Retorna: Lista de pontuações de usuários em uma liga
+- Parameters: `leagueId`
+- Returns: List of user points in a league
 
 ### GET /get-user-ranking-by-bubble-ids
-- Método: POST
+- Method: POST
 - Handler: `handler.getUserRankingByBubbleIds`
-- Parâmetros: `bubbleIds` (array)
-- Retorna: Ranking consolidado baseado em múltiplos bolões
+- Parameters: `bubbleIds` (array)
+- Returns: Consolidated ranking based on multiple pools
 - Timeout: 600s
 
-## Fluxos de Processamento
-1. **Consulta de Pontuação por Bolão**
-   - Recebe bubbleId via POST
-   - Valida parâmetro obrigatório
-   - Consulta pontuações no banco de dados
-   - Retorna lista ordenada por posição
-   - Logging de estado do processamento
+## Processing Flows
+1. **Query Points by Pool**
+   - Receives bubbleId via POST
+   - Validates required parameter
+   - Queries points in database
+   - Returns list ordered by position
+   - Processing state logging
 
-2. **Consulta de Pontuação por Liga**
-   - Recebe leagueId via POST
-   - Valida parâmetro obrigatório
-   - Consulta pontuações no banco de dados
-   - Retorna lista ordenada por posição
+2. **Query Points by League**
+   - Receives leagueId via POST
+   - Validates required parameter
+   - Queries points in database
+   - Returns list ordered by position
 
-3. **Cálculo de Ranking Consolidado**
-   - Recebe array de bubbleIds via POST
-   - Valida array não vazio
-   - Processa pontuações de cada bolão
-   - Calcula pontuação total por usuário
-   - Ordena por pontuação total
-   - Retorna ranking consolidado com detalhes por bolão
+3. **Calculate Consolidated Ranking**
+   - Receives bubbleIds array via POST
+   - Validates non-empty array
+   - Processes points from each pool
+   - Calculates total points per user
+   - Orders by total points
+   - Returns consolidated ranking with pool details

@@ -1,80 +1,80 @@
-# Log de Progresso
+# Progress Log
 
-## Versão Atual
-### Implementações
-- Estrutura base do projeto com Serverless Framework
-- Três endpoints principais para consulta de rankings
-- Sistema de logging de estados de processamento
-- Configuração de timeout para operações longas
-- Documentação completa do projeto
+## Current Version
+### Implementations
+- Base project structure with Serverless Framework
+- Three main endpoints for ranking queries
+- Processing state logging system
+- Timeout configuration for long operations
+- Complete project documentation
 
-### Próximos Passos
-- Implementar cache para consultas frequentes
-- Adicionar testes automatizados
-- Melhorar monitoramento de performance
-- Implementar rate limiting
-- Adicionar documentação de autenticação
+### Next Steps
+- Implement cache for frequent queries
+- Add automated tests
+- Improve performance monitoring
+- Implement rate limiting
+- Add authentication documentation
 
-## Histórico de Decisões Técnicas
-1. **Arquitetura Serverless**
-   - Decisão: Usar AWS Lambda com Serverless Framework
-   - Motivo: Escalabilidade automática e custo-benefício
-   - Data: [Data da decisão]
+## Technical Decision History
+1. **Serverless Architecture**
+   - Decision: Use AWS Lambda with Serverless Framework
+   - Reason: Automatic scalability and cost-effectiveness
+   - Date: [Decision date]
 
-2. **Timeout de 600s**
-   - Decisão: Configurar timeout longo para operações de ranking
-   - Motivo: Processamento de múltiplas bolhas pode ser demorado
-   - Data: [Data da decisão]
+2. **600s Timeout**
+   - Decision: Configure long timeout for ranking operations
+   - Reason: Processing multiple bubbles can be time-consuming
+   - Date: [Decision date]
 
-3. **Estrutura de Pastas**
-   - Decisão: Organizar em domain, infrastructure e utils
-   - Motivo: Separação clara de responsabilidades
-   - Data: [Data da decisão]
+3. **Folder Structure**
+   - Decision: Organize into domain, infrastructure, and utils
+   - Reason: Clear separation of responsibilities
+   - Date: [Decision date]
 
-## Melhorias Pendentes
-### Alta Prioridade
-- [ ] Implementar cache Redis para consultas frequentes
-- [ ] Adicionar testes unitários e de integração
-- [ ] Implementar rate limiting por usuário
-- [ ] Melhorar logging de erros
-- [ ] Adicionar métricas de performance
+## Pending Improvements
+### High Priority
+- [ ] Implement Redis cache for frequent queries
+- [ ] Add unit and integration tests
+- [ ] Implement per-user rate limiting
+- [ ] Improve error logging
+- [ ] Add performance metrics
 
-### Média Prioridade
-- [ ] Otimizar queries do MongoDB
-- [ ] Implementar paginação nos endpoints
-- [ ] Adicionar documentação de autenticação
-- [ ] Melhorar tratamento de erros
+### Medium Priority
+- [ ] Optimize MongoDB queries
+- [ ] Implement endpoint pagination
+- [ ] Add authentication documentation
+- [ ] Improve error handling
 
-### Baixa Prioridade
-- [ ] Adicionar documentação de deploy
-- [ ] Implementar health check
-- [ ] Adicionar exemplos de uso
-- [ ] Melhorar documentação de troubleshooting
+### Low Priority
+- [ ] Add deployment documentation
+- [ ] Implement health check
+- [ ] Add usage examples
+- [ ] Improve troubleshooting documentation
 
-## Problemas Conhecidos
-1. **Performance em Rankings Grandes**
-   - Descrição: Operações com muitos bolões podem ser lentas
-   - Impacto: Alto
-   - Solução Proposta: Implementar cache e otimizar queries
+## Known Issues
+1. **Performance in Large Rankings**
+   - Description: Operations with many pools can be slow
+   - Impact: High
+   - Proposed Solution: Implement cache and optimize queries
 
-2. **Falta de Testes Automatizados**
-   - Descrição: Cobertura de testes insuficiente
-   - Impacto: Médio
-   - Solução Proposta: Implementar suite de testes
+2. **Lack of Automated Tests**
+   - Description: Insufficient test coverage
+   - Impact: Medium
+   - Proposed Solution: Implement test suite
 
-## Métricas de Performance
+## Performance Metrics
 ### Endpoints
 - **getUserPoints**
-  - Tempo médio de resposta: [valor]
-  - Taxa de erro: [valor]
-  - Uso de memória: [valor]
+  - Average response time: [value]
+  - Error rate: [value]
+  - Memory usage: [value]
 
 - **getUserPointsByLeague**
-  - Tempo médio de resposta: [valor]
-  - Taxa de erro: [valor]
-  - Uso de memória: [valor]
+  - Average response time: [value]
+  - Error rate: [value]
+  - Memory usage: [value]
 
 - **getUserRankingByBubbleIds**
-  - Tempo médio de resposta: [valor]
-  - Taxa de erro: [valor]
-  - Uso de memória: [valor]
+  - Average response time: [value]
+  - Error rate: [value]
+  - Memory usage: [value]

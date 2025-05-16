@@ -1,9 +1,9 @@
-# Documentação da API
+# API Documentation
 
 ## Endpoints
 
 ### GET /get-user-points
-Retorna as pontuações dos usuários em um bolão específico.
+Returns user points in a specific pool.
 
 #### Request
 ```json
@@ -40,7 +40,7 @@ Retorna as pontuações dos usuários em um bolão específico.
 ```
 
 ### GET /get-user-points-by-league
-Retorna as pontuações dos usuários em uma liga específica.
+Returns user points in a specific league.
 
 #### Request
 ```json
@@ -77,7 +77,7 @@ Retorna as pontuações dos usuários em uma liga específica.
 ```
 
 ### GET /get-user-ranking-by-bubble-ids
-Calcula e retorna o ranking consolidado baseado em múltiplos bolões.
+Calculates and returns the consolidated ranking based on multiple pools.
 
 #### Request
 ```json
@@ -119,7 +119,7 @@ Calcula e retorna o ranking consolidado baseado em múltiplos bolões.
 }
 ```
 
-## Modelos de Dados
+## Data Models
 
 ### UserPoints
 ```typescript
@@ -143,12 +143,12 @@ interface Ranking {
 }
 ```
 
-## Códigos de Erro
-- 400: Bad Request - Parâmetros inválidos ou ausentes
-- 500: Internal Server Error - Erro interno do servidor
+## Error Codes
+- 400: Bad Request - Invalid or missing parameters
+- 500: Internal Server Error - Server internal error
 
-## Limitações
-- Timeout de 600s para operações de ranking consolidado
-- Requer autenticação (não documentada aqui)
-- Limite de tamanho do payload (definido pelo API Gateway)
-- Rate limiting (definido pelo API Gateway)
+## Limitations
+- 600s timeout for consolidated ranking operations
+- Requires authentication (not documented here)
+- Payload size limit (defined by API Gateway)
+- Rate limiting (defined by API Gateway)
