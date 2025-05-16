@@ -1,48 +1,113 @@
-# Arquitetura do Sistema
+# System Architecture
 
-## Visão Geral da Arquitetura
-O sistema segue uma arquitetura serverless baseada em AWS Lambda, utilizando o Serverless Framework para gerenciamento de infraestrutura. A arquitetura é composta por três funções Lambda principais, cada uma responsável por um endpoint específico de consulta de rankings e pontuações.
+## Overview
 
-## Camadas do Sistema
-1. **API Layer (handler.js)**
-   - Recebe requisições HTTP
-   - Valida parâmetros de entrada
-   - Trata erros e formata respostas
-   - Roteia para os serviços apropriados
+The League Process Get Ranking is a serverless service responsible for retrieving and calculating user rankings and points across multiple leagues. It follows a serverless architecture using AWS Lambda as the main function, with well-defined layers to ensure separation of responsibilities and maintainability.
 
-2. **Domain Layer (domain/)**
-   - Contém a lógica de negócio
-   - Implementa regras de cálculo de pontuações
-   - Gerencia a lógica de ranking
-   - Processa dados de múltiplos bolões
+## Architecture Diagram
 
-3. **Infrastructure Layer (infrastructure/)**
-   - Configurações de conexão com banco de dados
-   - Configurações de serviços externos
-   - Gerenciamento de dependências
+```mermaid
+graph TB
+    subgraph "AWS Cloud"
+        subgraph "API Gateway"
+            APIG[API Gateway]
+        end
 
-4. **Utils Layer (utils/)**
-   - Funções utilitárias
-   - Logging e monitoramento
-   - Helpers de processamento
+        subgraph "Lambda Functions"
+            GetUserPoints[getUserPoints]
+            GetUserPointsByLeague[getUserPointsByLeague]
+            GetUserRankingByBubbleIds[getUserRankingByBubbleIds]
+        end
 
-## Fluxo de Dados
-1. Requisição HTTP recebida pelo endpoint Lambda
-2. Validação dos parâmetros de entrada (bubbleId, leagueId, bubbleIds)
-3. Chamada ao serviço apropriado na camada de domínio
-4. Processamento da lógica de negócio
-5. Consulta ao banco de dados (quando necessário)
-6. Formatação e retorno da resposta
-7. Logging do estado do processamento
+        subgraph "MongoDB"
+            Mongo[(MongoDB)]
+            Bets[(Bets Collection)]
+            Rankings[(Rankings Collection)]
+        end
+    end
 
-## Considerações de Segurança
-- Validação de parâmetros de entrada
-- Tratamento adequado de erros
-- Logging de estados de processamento para auditoria
-- Timeout configurado para operações longas (600s para getUserRankingByBubbleIds)
+    %% Connections
+    APIG -->|HTTP/REST| GetUserPoints
+    APIG -->|HTTP/REST| GetUserPointsByLeague
+    APIG -->|HTTP/REST| GetUserRankingByBubbleIds
+    
+    GetUserPoints -->|Query| Mongo
+    GetUserPointsByLeague -->|Query| Mongo
+    GetUserRankingByBubbleIds -->|Query| Mongo
 
-## Escalabilidade
-- Arquitetura serverless permite escalabilidade automática
-- Processamento assíncrono de rankings
-- Timeout adequado para operações pesadas
-- Logging para monitoramento de performance
+    %% Styling
+    classDef aws fill:#FF9900,stroke:#232F3E,stroke-width:2px;
+    classDef lambda fill:#009900,stroke:#232F3E,stroke-width:2px;
+    classDef db fill:#13aa52,stroke:#232F3E,stroke-width:2px;
+
+    class APIG aws;
+    class GetUserPoints,GetUserPointsByLeague,GetUserRankingByBubbleIds lambda;
+    class Mongo,Bets,Rankings db;
+```
+
+## Sequence Diagram
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant APIG as API Gateway
+    participant Lambda as Lambda Function
+    participant Service as Ranking Service
+    participant DA as Data Access
+    participant Mongo as MongoDB
+
+    Client->>APIG: POST /get-user-points
+    APIG->>Lambda: HTTP Event
+    
+    Lambda->>Service: getUserPointsByBubbleId()
+    Service->>DA: Query database
+    DA->>Mongo: Aggregate points
+    Mongo-->>DA: Return results
+    DA-->>Service: Process data
+    Service-->>Lambda: Return points
+    Lambda-->>APIG: HTTP Response
+    APIG-->>Client: Return ranking
+```
+
+## System Layers
+
+### 1. API Layer (handler.js)
+- Receives HTTP requests
+- Validates input parameters
+- Routes to appropriate services
+- Handles error responses
+
+### 2. Domain Layer (domain/)
+- Implements business logic
+- Calculates user points
+- Manages ranking logic
+- Processes multiple leagues
+
+### 3. Infrastructure Layer (infrastructure/)
+- Database connection management
+- External service configurations
+- Dependency management
+
+### 4. Utils Layer (utils/)
+- Utility functions
+- Logging and monitoring
+- Processing helpers
+
+## Data Flow
+1. HTTP request received by API Gateway
+2. Lambda function processes request
+3. Service layer coordinates business logic
+4. Data Access layer queries MongoDB
+5. Response is formatted and returned
+
+## Security Considerations
+- Input parameter validation
+- Error handling and logging
+- Processing state tracking
+- Configurable timeouts (600s for getUserRankingByBubbleIds)
+
+## Scalability
+- Serverless architecture enables automatic scaling
+- Asynchronous ranking processing
+- Optimized database queries
+- Performance monitoring through logging
