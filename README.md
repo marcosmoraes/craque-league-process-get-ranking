@@ -1,8 +1,8 @@
 # League Process Get Ranking
 
-Serviço responsável por processar e retornar rankings e pontuações de usuários em ligas e bolões do sistema Craque.
+Service responsible for processing and returning user rankings and points in leagues and pools of the Craque system.
 
-## 🚀 Tecnologias
+## 🚀 Technologies
 
 - Node.js 18.x
 - MongoDB
@@ -10,69 +10,69 @@ Serviço responsável por processar e retornar rankings e pontuações de usuár
 - AWS Lambda
 - Serverless Offline
 
-## 📋 Pré-requisitos
+## 📋 Prerequisites
 
 - Node.js 18.x
 - MongoDB
 - Serverless Framework CLI
-- Conta AWS (para deploy)
+- AWS Account (for deployment)
 
-## 🔧 Instalação
+## 🔧 Installation
 
-1. Clone o repositório
+1. Clone the repository
 ```bash
-git clone [url-do-repositorio]
+git clone [repository-url]
 ```
 
-2. Instale as dependências
+2. Install dependencies
 ```bash
 npm install
 ```
 
-3. Configure as variáveis de ambiente
+3. Configure environment variables
 ```bash
 cp .env.example .env
-# Edite o arquivo .env com suas credenciais
+# Edit the .env file with your credentials
 ```
 
-4. Execute localmente
+4. Run locally
 ```bash
 serverless offline
 ```
 
-## 📚 Documentação
+## 📚 Documentation
 
-A documentação completa do projeto está disponível na pasta `docs/`:
+Complete project documentation is available in the `docs/` folder:
 
-- [Visão Geral](docs/00-project-overview.md)
-- [Arquitetura](docs/01-architecture.md)
-- [Componentes](docs/02-components.md)
-- [Processo de Desenvolvimento](docs/03-development-process.md)
+- [Overview](docs/00-project-overview.md)
+- [Architecture](docs/01-architecture.md)
+- [Components](docs/02-components.md)
+- [Development Process](docs/03-development-process.md)
 - [API](docs/04-api-documentation.md)
-- [Log de Progresso](docs/05-progress-log.md)
+- [Progress Log](docs/05-progress-log.md)
 
-## 🛠️ Desenvolvimento
+## 🛠️ Development
 
-### Comandos Úteis
+### Useful Commands
 
-- Desenvolvimento local: `serverless offline`
-- Deploy dev: `serverless deploy --stage dev`
-- Deploy prod: `serverless deploy --stage prod`
+- Local development: `serverless offline`
+- Dev deployment: `serverless deploy --stage dev`
+- Prod deployment: `serverless deploy --stage prod`
 
 ### Endpoints
 
-- `POST /get-user-points`: Retorna pontuações por bolão
-- `POST /get-user-points-by-league`: Retorna pontuações por liga
-- `POST /get-user-ranking-by-bubble-ids`: Retorna ranking consolidado
+- `POST /get-user-points`: Returns points by pool
+- `POST /get-user-points-by-league`: Returns points by league
+- `POST /get-user-ranking-by-bubble-ids`: Returns consolidated ranking
 
-## 📝 Licença
+## 📝 License
 
-Este projeto está sob a licença [MIT](LICENSE).
+This project is licensed under the [MIT](LICENSE) license.
 
-## 🤝 Contribuição
+## 🤝 Contributing
 
-1. Faça um fork do projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
